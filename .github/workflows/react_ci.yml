@@ -1,0 +1,39 @@
+name: React CI Pipeline
+
+on:
+  push:
+    branches:
+      - main  # ou 'master', selon ton usage
+  pull_request:
+    branches:
+      - main  # ou 'master', selon ton usage
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Étape 1 : Vérifier le code source
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Étape 2 : Installer Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # Choisis la version de Node.js que tu utilises dans ton projet
+
+    # Étape 3 : Installer les dépendances
+    - name: Install dependencies
+      run: npm install
+
+    # Étape 4 : Lancer les tests
+    #- name: Run tests
+      #run: npm test -- --ci --coverage  # Exécute tes tests (assure-toi que tes tests sont bien configurés)
+
+    # Étape 5 : Construire l'application
+    - name: Build the app
+      run: npm run build  # Assure-toi que la commande build est correctement configurée dans ton package.json
+
+    # Étape 6 : Déployer (optionnel)
+    # Tu peux ajouter des étapes de déploiement ici si tu souhaites déployer ton app après chaque push sur main
